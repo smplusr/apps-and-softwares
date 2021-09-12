@@ -24,7 +24,7 @@ For example:
 ./a.out 192.168.0.0 username password
 ```
 Otherwise, the sofware will notify you to do so.
-Thanks to Ivan Tretyakov for their work on the SmallSimpleSSH.c project, which helped me diseigning this one and understanding
+Thanks to Ivan Tretyakov for their work on the SmallSimpleSSH.c project, which helped me designing this one and understanding
 the libssh2 library. The link to their project can be found below:
 
 Link: https://www.libssh2.org/mail/libssh2-devel-archive-2018-10/att-0013/SmallSimpleSSH_2.c
