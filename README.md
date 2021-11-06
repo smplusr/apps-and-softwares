@@ -31,7 +31,7 @@ Link: https://www.libssh2.org/mail/libssh2-devel-archive-2018-10/att-0013/SmallS
 
 ------------------------------------------------------------------------------------------------
 
-instructions-runners: (file/argv/input)
+Instructions-runners: (file/argv/input)
 
 Thoses softwares are simple machine-code / opcodes executers wrote in NASM or GAS.
 Compiled versions can be found in the "build" branch of the repository.
