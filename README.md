@@ -28,3 +28,12 @@ Thanks to Ivan Tretyakov for their work on the SmallSimpleSSH.c project, which h
 the libssh2 library. The link to their project can be found below:
 
 Link: https://www.libssh2.org/mail/libssh2-devel-archive-2018-10/att-0013/SmallSimpleSSH_2.c
+
+------------------------------------------------------------------------------------------------
+
+instructions-runners: (file/argv/input)
+
+Thoses softwares are simple machine-code / opcodes executers wrote in NASM or GAS.
+Compiled versions can be found in the "build" branch of the repository.
+Compile instructions and run parameters can be found the the Makefiles.
+Made for linux i386.
