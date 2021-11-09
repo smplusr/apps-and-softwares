@@ -29,10 +29,11 @@ class GNC_Agent:
       return self.result, self.memory
 
     def Guard(self, input):
-      if input[0] == ',':
-        input = input.replace(',', 'self.')
-        eval(input)
-        return True
+      if input != "":
+        if input[0] == ',':
+          input = input.replace(',', 'self.')
+          eval(input)
+          return True
 
     def ReadMemory (self, file):
       self.memory = ""
