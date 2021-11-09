@@ -33,9 +33,6 @@ Link: https://www.libssh2.org/mail/libssh2-devel-archive-2018-10/att-0013/SmallS
 
 # GNC - Chat - Agent 
 
-This Utility is the Google Colab version of the one available here:
-  - https://github.com/smplusr
-
 This tool contains 3 mains parts:
   - The install mechanism, written in BASH
   - The model setup script, written in Python
