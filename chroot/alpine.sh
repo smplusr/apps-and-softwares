@@ -44,7 +44,7 @@ command="$command \
 		-m $mem -smp $(nproc) \
 		-net nic -net user,hostfwd=tcp::2222-:22 \
         	-machine type=q35,accel=tcg,usb=off,dump-guest-core=off \
-		-drive file=$iso,media=cdiso,cache=writeback \
+		-drive file=$iso,media=cdrom,cache=writeback \
 		-boot d
 	"
 
