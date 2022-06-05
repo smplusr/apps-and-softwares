@@ -6,37 +6,6 @@ mem=128
 cpu=1
 
 
-function build {
-	if ! test -f $rom; then
-		wget $web
-	fi
-
-	command="$command \
-		qemu-system-x86_64 \
-			-m $mem -smp $cpu \
-			-nographic \
-			-cdrom $rom \
-			-boot d 
-		"
-
-	if ! test $kvm -eq "0"; then
-		command="$command \
-			-machine type=q35,accel=kvm -cpu host \
-			-enable-kvm \
-			"
-	fi
-
-	if ! test -z $hda; then
-		if ! test -f $hda; then
-			eval "qemu-img create -f raw $hda ${mem}M"
-		fi
-		command="$command \
-			-hda $hda
-			"
-	fi
-}
-
-
 while getopts ":m:c:f:r:k" opt; do
 	case "$opt" in
 		m)
@@ -52,11 +21,34 @@ while getopts ":m:c:f:r:k" opt; do
 			rom=$OPTARG
 			;;
 		k)
-			kvm=1
+			kvm="true"
 			;;
 	esac
 done
 
 
-build
+if ! test -f $rom; then
+	wget $web
+fi
+
+command="$command \
+	qemu-system-x86_64 \
+		-nographic \
+		-m $mem -smp $cpu \
+		-cdrom $rom \
+		-boot d
+	"
+
+if ! test -z $kvm; then
+	command="$command -machine type=q35,accel=kvm -cpu host"
+fi
+
+if ! test -z $hda; then
+	if ! test -f $hda; then
+		eval "qemu-img create -f raw $hda ${mem}M"
+	fi
+	command="$command -hda $hda"
+fi
+
+
 eval $command
