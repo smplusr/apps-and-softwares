@@ -2,17 +2,17 @@
 web="http://dl-cdn.alpinelinux.org/alpine/v3.16/releases/x86_64/alpine-virt-3.16.0-x86_64.iso"
 rom="alpine-virt-3.16.0-x86_64.iso"
 
-mem=128
-cpu=1
+len="128M"
+mem="512M"
 
 
-while getopts ":m:c:f:r:k" opt; do
+while getopts ":m:l:f:r:k" opt; do
 	case "$opt" in
 		m)
 			mem=$OPTARG
 			;;
-		c)
-			cpu=$OPTARG
+        l)
+			len=$OPTARG
 			;;
 		f)
 			hda=$OPTARG
@@ -34,8 +34,9 @@ fi
 command="$command \
 	qemu-system-x86_64 \
 		-nographic \
-		-m $mem -smp $cpu \
-		-cdrom $rom \
+		-m $mem -smp $(nproc) \
+        -machine type=q35,accel=tcg,usb=off,dump-guest-core=off \
+		-drive file=$rom,media=cdrom,cache=writeback \
 		-boot d
 	"
 
@@ -45,9 +46,9 @@ fi
 
 if ! test -z $hda; then
 	if ! test -f $hda; then
-		eval "qemu-img create -f raw $hda ${mem}M"
+		eval "qemu-img create -f raw $hda $len"
 	fi
-	command="$command -hda $hda"
+	command="$command -drive file=$hda,if=virtio,format=raw,cache=writeback"
 fi
 
 
