@@ -15,7 +15,7 @@ help="\n
 
 
 
-while getopts ":m:f:k:h" opt; do
+while getopts ":m:f:kh" opt; do
 	case "$opt" in
 		m)
 			mem=$OPTARG
