@@ -1,36 +1,29 @@
-user="root"
-addr="localhost"
-port="22"
-dir="./"
+format="vfat"
+file="disk"
+dir="shared/"
 
 help="\n
-	File exchanger using OpenSSH's SCP file transfer protocol. \n
-	Requires networking and OpenSSH. \n
-	Warning : \n
-		-	on qemu machines, requires TCP port forwarding \n
-		-	requires setting a password and authorisations for root users \n
-		-	deleting ~/.ssh/known_hosts might be obligatory \n
+	Qemu raw disk file exchanger. Retreives and send files from and to a disk file. \n
 	Options : \n
-		-u	user, default : '$user' \n
-		-a	address (IP), default : '$addr' (127.0.0.1) \n
-		-p	port, default : '$port' \n
-		-f	directory, default : '$dir' \n
-		-o	operation, default : 'UNSET' \n	"
+		-f	file, default : '$file' \n
+		-t	format, default : '$format' \n
+		-d	directory, default : '$dir' \n
+		-o	operation, default : 'UNSET' \n
+		-h	help \n
+	"
 
 
 
-while getopts ":u:a:p:f:o:h" opt; do
+
+while getopts ":f:t:d:o:h" opt; do
 	case "$opt" in
-		u)
-			user=$OPTARG
-			;;
-		a)
-			addr=$OPTARG
-			;;
-		p)
-			port=$OPTARG
-			;;
 		f)
+			file=$OPTARG
+			;;
+		t)
+			format=$OPTARG
+			;;
+		d)
 			dir=$OPTARG
 			;;
 		o)
@@ -44,21 +37,25 @@ while getopts ":u:a:p:f:o:h" opt; do
 done
 
 
-if test -z $operation; then
-	read -p "Please specify an operation : " operation
+
+if ! test -f $file; then
+	echo "$file does not exist"
+	exit 
 fi
 
 
-if test $operation == "set"; then
-	eval "scp -r -P $port ${dir}/* ${addr}:/root/"
-	exit 0
+
+mkdir tmp/
+mount -o loop $file tmp/ -t$format
+
+if test $operation == "grep"; then
+	cp -r tmp/* $dir
 fi
 
-if test $operation == "get"; then
-	eval "scp -r -P $port ${addr}:/root/* $dir"
-	exit 0
+if test $operation == "send"; then
+	cp -r ${dir}/* tmp/
 fi
 
+umount -d tmp/
+rm -r tmp/
 
-echo "Invalid Operation"
-exit 1
